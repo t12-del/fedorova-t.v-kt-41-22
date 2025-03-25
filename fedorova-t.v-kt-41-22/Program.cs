@@ -1,5 +1,8 @@
+using fedorova_t.v_kt_41_22.Database;
+using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +19,10 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
+    builder.Services.AddDbContext<TeacherDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
@@ -30,8 +37,9 @@ try
     app.MapControllers();
 
     app.Run();
+
 }
-catch(Exception ex)
+catch (Exception ex)
 {
     logger.Error(ex, "Stopped program because of exception");
 }
