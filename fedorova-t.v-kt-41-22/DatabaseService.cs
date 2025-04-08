@@ -1,12 +1,13 @@
-﻿using fedorova_t.v_kt_41_22.Models;
+﻿using fedorova_t.v_kt_41_22.Database;
+using fedorova_t.v_kt_41_22.Models;
 using Microsoft.EntityFrameworkCore;
 
 
 public class DatabaseService
 {
-    private readonly ApplicationDbContext _context;
+    private readonly TeacherDbContext _context;
 
-    public DatabaseService(ApplicationDbContext context)
+    public DatabaseService(TeacherDbContext context)
     {
         _context = context;
     }
