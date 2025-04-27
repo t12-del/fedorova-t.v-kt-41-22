@@ -1,9 +1,8 @@
 using fedorova_t.v_kt_41_22.Database;
-using fedorova_t.v_kt_41_22.Interfaces.TeacherInterfaces;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
-using static fedorova_t.v_kt_41_22.ServiceExtentions.ServiceExtentions;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,9 +23,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
 
     builder.Services.AddControllers();
 
-    builder.Services.AddScoped<ITeacherService, TeacherService>();
-
-    builder.Services.AddServices();
+    
 
     var app = builder.Build();
 
