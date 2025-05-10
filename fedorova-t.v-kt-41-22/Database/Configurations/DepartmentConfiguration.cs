@@ -1,22 +1,52 @@
 ﻿using fedorova_t.v_kt_41_22.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using fedorova_t.v_kt_41_22.Database.Helpers;
 
 
 namespace fedorova_t.v_kt_41_22.Database.Configurations
 {
     public class DepartmentConfiguration : IEntityTypeConfiguration<Department>
     {
+        private const string TableName = "Departments";
         public void Configure(EntityTypeBuilder<Department> builder)
         {
-            builder.ToTable("Departments");
-            builder.HasKey(d => d.Id);
-            builder.Property(d => d.Name).HasMaxLength(100).IsRequired();
+            builder.HasKey(p => p.Id)
+            .HasName($"pl_{TableName}_department_id");
 
-            builder.HasOne(d => d.Head)
-            .WithOne(t => t.ManagedDepartment)
-            .HasForeignKey<Department>(d => d.HeadId)
-            .OnDelete(DeleteBehavior.Restrict);
+            //Автоинкрементация
+            builder.Property(p => p.Id)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("Department_Id")
+                .HasComment("Id факультета");
+
+            builder.Property(p => p.Name)
+                 .IsRequired()
+                 .HasColumnName("Name")
+                 .HasColumnType(ColumnType.String).HasMaxLength(20)
+                 .HasComment("Название факультета");
+
+            builder.Property(p => p.FoundedDate)
+                 .IsRequired()
+                 .HasColumnName("Founded_Date")
+                 .HasColumnType(ColumnType.Date)
+                 .HasComment("Дата основания факультета");
+
+            // Настройка связи
+            builder.Property(p => p.HeadId)
+              .HasColumnName("Head_Id")
+              .HasComment("Id зав. кафедры");
+
+
+            builder.HasOne(p => p.Head)
+                .WithOne()
+                .HasForeignKey<Department>(p => p.HeadId)
+                .OnDelete(DeleteBehavior.NoAction)
+                .HasConstraintName("fk_f_head_id");
+
+
+            builder.ToTable(TableName)
+                .HasIndex(p => p.HeadId, $"idx_{TableName}_fk_f_head_id");
         }
     }
     }

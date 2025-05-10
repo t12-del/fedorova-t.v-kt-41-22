@@ -25,7 +25,7 @@ public class DatabaseService
 
         var teacher = new Teacher
         {
-            AcademicDegreeId = degree.Id,
+            DegreeId = degree.Id,
             PositionId = position.Id,
             DepartmentId = department.Id
         };
