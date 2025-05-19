@@ -14,6 +14,7 @@ namespace fedorova_t.v_kt_41_22.Models
         public virtual Teacher? Head { get; set; }
         //public virtual ICollection<Teacher> Teachers { get; set; } = new List<Teacher>();
 
+
         public bool IsValidDepartmentName()
         {
             return !string.IsNullOrEmpty(Name) &&
