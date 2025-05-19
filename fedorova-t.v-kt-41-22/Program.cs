@@ -1,4 +1,6 @@
 using fedorova_t.v_kt_41_22.Database;
+using fedorova_t.v_kt_41_22.Middlewares;
+using fedorova_t.v_kt_41_22.ServiceExtensions;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
@@ -21,6 +23,9 @@ try
     builder.Services.AddDbContext<TeacherDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+    builder.Services.AddControllers();
+
+    builder.Services.AddServices();
 
     var app = builder.Build();
 
@@ -30,6 +35,8 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
         app.UseSwagger();
         app.UseSwaggerUI();
     }
+
+    app.UseMiddleware<ExceptionHandlerMiddleware>();
 
     app.UseAuthorization();
 
